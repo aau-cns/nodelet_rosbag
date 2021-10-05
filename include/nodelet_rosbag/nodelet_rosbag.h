@@ -2,6 +2,7 @@
 #define NODELET_ROSBAG_H
 
 #include <boost/thread/mutex.hpp>
+#include <boost/utility/in_place_factory.hpp>
 #include <nodelet/nodelet.h>
 #include <nodelet_rosbag/SubscribeAction.h>
 #include <rosbag/bag.h>
