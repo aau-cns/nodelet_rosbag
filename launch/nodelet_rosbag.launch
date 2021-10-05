@@ -4,8 +4,10 @@
     <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
   </node-->
 
-  <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag nodelet_manager"> 
-    <param name="rosbag_record_topics" value="/mission_cam/image_raw" />
+  <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag nodelet_manager">
     <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
+    <rosparam param="rosbag_record_topics">
+       [ "/mission_cam/image_raw" ]
+    </rosparam>
   </node>
-`</launch>
+</launch>

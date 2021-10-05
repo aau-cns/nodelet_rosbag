@@ -3,8 +3,10 @@
 #include <ros/ros.h>
 #include <rosbag/view.h>
 
-#include <nodelet_rosbag/SubscribeAction.h>
 #include <nodelet_rosbag/nodelet_rosbag.h>
+#include <nodelet_rosbag/SubscribeAction.h>
+
+#include <iostream>
 
 namespace nodelet_rosbag {
 

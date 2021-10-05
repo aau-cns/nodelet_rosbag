@@ -14,8 +14,8 @@ class NodeRosbagImpl {
 public:
   NodeRosbagImpl(ros::NodeHandle *nh, ros::NodeHandle *private_nh)
       : nh_(*nh), private_nh_(*private_nh) {
-    nh_.getParam("rosbag_path", rosbag_path_);
-    nh_.getParam("rosbag_record_topics", rosbag_record_topics_);
+    private_nh_.getParam("rosbag_path", rosbag_path_);
+    private_nh_.getParam("rosbag_record_topics", rosbag_record_topics_);
   }
 
   void set_param();
