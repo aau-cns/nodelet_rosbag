@@ -1,0 +1,11 @@
+<launch>
+  <!--node pkg="nodelet" type="nodelet" name="standalone_nodelet"  args="manager" output="screen">
+    <param name="rosbag_record_topics" value="/mission_cam/image_raw" />
+    <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
+  </node-->
+
+  <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag nodelet_manager"> 
+    <param name="rosbag_record_topics" value="/mission_cam/image_raw" />
+    <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
+  </node>
+`</launch>

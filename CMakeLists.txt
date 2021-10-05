@@ -37,5 +37,5 @@ install(TARGETS nodelet_rosbag
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(FILES nodelet_rosbag.xml nodelet_rosbag.launch
+install(FILES nodelet_rosbag.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
