@@ -8,17 +8,13 @@
 #include <rosbag/bag.h>
 #include <topic_tools/shape_shifter.h>
 #include <time.h>
-#include <chrono>
 
 namespace nodelet_rosbag {
 
 class NodeRosbagImpl {
 public:
   NodeRosbagImpl(ros::NodeHandle *nh, ros::NodeHandle *private_nh)
-      : nh_(*nh), private_nh_(*private_nh) {
-
-
-  }
+      : nh_(*nh), private_nh_(*private_nh) {}
 
   void init()
   {
@@ -30,16 +26,17 @@ public:
       std::cout << "ERROR: NodeRosbagImpl::init() rosparam: rosbag_record_topics was empty!" << std::endl;
     }
 
-    // Get current time
-    std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
-    std::time_t start_time = std::chrono::system_clock::to_time_t(now);
-
+    time_t rawtime;
     char timebuffer[100];
     struct tm *buf;
 
+    // Get current time
+    time(&rawtime);
+    buf = localtime(&rawtime);
+
     // Set rosbag name
     if (std::strftime(timebuffer, sizeof(timebuffer), "%F-%H-%M-%S", buf)) {
-      rosbag_path_ = rosbag_path_ + std::string(timebuffer) + ".bag";
+      rosbag_path_ = rosbag_path_ + "_" + std::string(timebuffer) + ".bag";
     } else {
       std::cout << "Error on setting the date on rosbag name, setting name without date" << std::endl;
       rosbag_path_ = rosbag_path_ + ".bag";
