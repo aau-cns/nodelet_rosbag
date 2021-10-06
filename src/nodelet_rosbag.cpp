@@ -35,7 +35,7 @@ void NodeRosbagImpl::close_bag() {
 
 void NodeRosbagImpl::record_callback(
     const ros::MessageEvent<topic_tools::ShapeShifter const> &event) {
-  boost::mutex::scoped_lock(rosbag_bag_mtx_);
+  boost::mutex::scoped_lock lock(rosbag_bag_mtx_);
   ros::M_string &header = event.getConnectionHeader();
   topic_tools::ShapeShifter::ConstPtr message = event.getMessage();
   bag_.write(header["topic"], ros::Time::now(), message);
