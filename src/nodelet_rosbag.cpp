@@ -23,13 +23,13 @@ void NodeRosbagImpl::set_param() {
 }
 
 void NodeRosbagImpl::open_bag() {
-  boost::mutex::scoped_lock(rosbag_mode_mtx_);
+  boost::mutex::scoped_lock lock(rosbag_bag_mtx_);
   std::cout << "open_bag(): " << rosbag_path_ << std::endl;
   bag_.open(rosbag_path_, rosbag::bagmode::Write);
 }
 
 void NodeRosbagImpl::close_bag() {
-  boost::mutex::scoped_lock(rosbag_mode_mtx_);
+  boost::mutex::scoped_lock lock(rosbag_bag_mtx_);
   bag_.close();
 }
 
