@@ -1,13 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <launch>
-  <!--node pkg="nodelet" type="nodelet" name="standalone_nodelet"  args="manager" output="screen">
+
+  <!-- Recording Options -->
+  <arg name="rosbag_path"         default="/home/core/rec_media" />
+  <arg name="rosbag_prefix"       default="cam" />
+  <arg name="rosbag_topics"       default="[/mission_cam/image_raw]" />
+
+  <!-- Nodelet Manager Options -->
+  <arg name="start_manager"         default="false" />
+  <arg name="nodelet_manager_name"  default="nodelet_manager" />
+  <arg name="respawn"               default="false" />
+
+  <!--node pkg="nodelet" type="nodelet" name="nodelet_manager"  args="manager" output="screen">
     <param name="rosbag_record_topics" value="/mission_cam/image_raw" />
     <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
   </node-->
 
-  <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag nodelet_manager">
-    <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
+  <group if="$(arg start_manager)">
+    <node name="nodelet" pkg="nodelet" type="$(arg nodelet_manager_name)" args="manager" output="screen" respawn="$(arg respawn)" />
+  </group>
+
+  <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag $(arg nodelet_manager_name)">
+    <!-- <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
     <rosparam param="rosbag_record_topics">
        [ "/mission_cam/image_raw" ]
-    </rosparam>
+    </rosparam> -->
+    <param name="rosbag_path"     value="$(arg rosbag_path)/$(arg rosbag_prefix).bag" />
+    <rosparam param="rosbag_record_topics">$(arg rosbag_topics)</rosparam>
   </node>
 </launch>
