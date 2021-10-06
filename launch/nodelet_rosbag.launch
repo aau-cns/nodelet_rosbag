@@ -26,7 +26,7 @@
     <rosparam param="rosbag_record_topics">
        [ "/mission_cam/image_raw" ]
     </rosparam> -->
-    <param name="rosbag_path"     value="$(arg rosbag_path)/$(arg rosbag_prefix).bag" />
+    <param name="rosbag_path"     value="$(arg rosbag_path)/$(arg rosbag_prefix)" />
     <rosparam param="rosbag_record_topics">$(arg rosbag_topics)</rosparam>
   </node>
 </launch>

@@ -7,6 +7,8 @@
 #include <nodelet_rosbag/SubscribeAction.h>
 #include <rosbag/bag.h>
 #include <topic_tools/shape_shifter.h>
+#include <time.h>
+#include <chrono>
 
 namespace nodelet_rosbag {
 
@@ -16,6 +18,24 @@ public:
       : nh_(*nh), private_nh_(*private_nh) {
     private_nh_.getParam("rosbag_path", rosbag_path_);
     private_nh_.getParam("rosbag_record_topics", rosbag_record_topics_);
+
+    // Get current time
+    std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+    std::time_t start_time = std::chrono::system_clock::to_time_t(now);
+    char timebuffer[100];
+    struct tm *buf;
+
+    // Set rosbag name
+    if (std::strftime(timebuffer, sizeof(timebuffer), "%F-%H-%M-%S", buf)) {
+      rosbag_path_ = rosbag_path_ + std::string(timebuffer) + ".bag";
+    } else {
+      std::cout << "Error on setting the date on rosbag name, setting name without date" << std::endl;
+      rosbag_path_ = rosbag_path_ + ".bag";
+    }
+
+    // Display info
+    std::cout << "Recording to: " +  rosbag_path_ << std::endl;
+
   }
 
   void set_param();
