@@ -16,12 +16,25 @@ class NodeRosbagImpl {
 public:
   NodeRosbagImpl(ros::NodeHandle *nh, ros::NodeHandle *private_nh)
       : nh_(*nh), private_nh_(*private_nh) {
+
+
+  }
+
+  void init()
+  {
     private_nh_.getParam("rosbag_path", rosbag_path_);
     private_nh_.getParam("rosbag_record_topics", rosbag_record_topics_);
+
+    if (rosbag_record_topics_.empty())
+    {
+      std::cout << "Param: rosbag_record_topics was empty..." << std::endl;
+      rosbag_record_topics_.push_back("dummy");
+    }
 
     // Get current time
     std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
     std::time_t start_time = std::chrono::system_clock::to_time_t(now);
+
     char timebuffer[100];
     struct tm *buf;
 
@@ -35,8 +48,11 @@ public:
 
     // Display info
     std::cout << "Recording to: " +  rosbag_path_ << std::endl;
-
+    for (size_t i = 0; i < rosbag_record_topics_.size(); ++i) {
+      std::cout << "\t * topic: " <<  rosbag_record_topics_[i] << std::endl;
+    }
   }
+
 
   void set_param();
   void close_bag();
@@ -61,10 +77,13 @@ private:
 class NodeletRosbag : public nodelet::Nodelet {
 public:
   virtual void onInit() {
-    NODELET_DEBUG("Initializing nodelet...");
+    NODELET_INFO("Initializing nodelet...");
     node_impl_ = boost::in_place(&getNodeHandle(), &getPrivateNodeHandle());
+
+    node_impl_->init();
     node_impl_->open_bag();
     node_impl_->set_param();
+    std::cout << "NodeletRosbag.onInit(): DONE" << std::endl;
   }
 
   ~NodeletRosbag() { node_impl_->close_bag(); }

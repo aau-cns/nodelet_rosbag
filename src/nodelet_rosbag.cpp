@@ -13,7 +13,7 @@ namespace nodelet_rosbag {
 void NodeRosbagImpl::set_param() {
 
   std::cout << "Parameter:" << std::endl;
-  for (int i = 0; i < rosbag_record_topics_.size(); ++i) {
+  for (size_t i = 0; i < rosbag_record_topics_.size(); ++i) {
     std::cout << rosbag_record_topics_[i] << std::endl;
 
     ros::Subscriber subscriber = private_nh_.subscribe(
@@ -24,6 +24,7 @@ void NodeRosbagImpl::set_param() {
 
 void NodeRosbagImpl::open_bag() {
   boost::mutex::scoped_lock(rosbag_mode_mtx_);
+  std::cout << "open_bag(): " << rosbag_path_ << std::endl;
   bag_.open(rosbag_path_, rosbag::bagmode::Write);
 }
 
