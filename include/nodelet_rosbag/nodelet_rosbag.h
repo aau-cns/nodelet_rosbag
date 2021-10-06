@@ -27,8 +27,7 @@ public:
 
     if (rosbag_record_topics_.empty())
     {
-      std::cout << "Param: rosbag_record_topics was empty..." << std::endl;
-      rosbag_record_topics_.push_back("dummy");
+      std::cout << "ERROR: NodeRosbagImpl::init() rosparam: rosbag_record_topics was empty!" << std::endl;
     }
 
     // Get current time
@@ -47,9 +46,9 @@ public:
     }
 
     // Display info
-    std::cout << "Recording to: " +  rosbag_path_ << std::endl;
+    std::cout << "NodeRosbagImpl::init(): recording topics in: " +  rosbag_path_ << std::endl;
     for (size_t i = 0; i < rosbag_record_topics_.size(); ++i) {
-      std::cout << "\t * topic: " <<  rosbag_record_topics_[i] << std::endl;
+      std::cout << "\t * " <<  rosbag_record_topics_[i] << std::endl;
     }
   }
 

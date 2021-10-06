@@ -12,9 +12,9 @@ namespace nodelet_rosbag {
 
 void NodeRosbagImpl::set_param() {
 
-  std::cout << "Parameter:" << std::endl;
+  std::cout << "Subscribing to topics: " << std::endl;
   for (size_t i = 0; i < rosbag_record_topics_.size(); ++i) {
-    std::cout << rosbag_record_topics_[i] << std::endl;
+    std::cout << "\t * " << rosbag_record_topics_[i] << std::endl;
 
     ros::Subscriber subscriber = private_nh_.subscribe(
         rosbag_record_topics_[i], 10, &NodeRosbagImpl::record_callback, this);
