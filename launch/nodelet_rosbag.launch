@@ -18,7 +18,7 @@
   </node-->
 
   <group if="$(arg start_manager)">
-    <node name="nodelet" pkg="nodelet" type="$(arg nodelet_manager_name)" args="manager" output="screen" respawn="$(arg respawn)" />
+    <node type="nodelet" pkg="nodelet" name="$(arg nodelet_manager_name)" args="manager" output="screen" respawn="$(arg respawn)" />
   </group>
 
   <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag $(arg nodelet_manager_name)">
