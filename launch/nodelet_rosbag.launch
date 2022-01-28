@@ -12,6 +12,9 @@
   <arg name="nodelet_manager_name"  default="nodelet_manager" />
   <arg name="respawn"               default="false" />
 
+  <!-- Nodelet Options -->
+  <arg name="nodelet_name"          default="record_nodelet" />
+
   <!--node pkg="nodelet" type="nodelet" name="nodelet_manager"  args="manager" output="screen">
     <param name="rosbag_record_topics" value="/mission_cam/image_raw" />
     <param name="rosbag_path" value="/home/core/rec_media/test.bag" />
@@ -21,7 +24,7 @@
     <node type="nodelet" pkg="nodelet" name="$(arg nodelet_manager_name)" args="manager" output="screen" respawn="$(arg respawn)" />
   </group>
 
-  <node pkg="nodelet" type="nodelet" name="record_nodelet" args="load nodelet_rosbag/NodeletRosbag $(arg nodelet_manager_name)">
+  <node pkg="nodelet" type="nodelet" name="$(arg nodelet_name)" args="load nodelet_rosbag/NodeletRosbag $(arg nodelet_manager_name)">
     <!-- <param name="rosbag_path" value="/home/core/rec_media/test.bag" />-->
 
     <rosparam param="rosbag_record_topics" subst_value="True">$(arg rosbag_topics)</rosparam>
