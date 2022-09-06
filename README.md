@@ -4,6 +4,8 @@
 
 Maintainer: [Martin Scheiber](mailto:martin.scheiber@aau.at)
 
+This is a modified fork of the [osrf/nodelet_rosbag](https://github.com/osrf/nodelet_rosbag) as used within the [CNS Flight Stack] for recording data in rosbags using nodelets (direct transfer via memeory rather than TCP/IP) wherever possible (depending on the "sender").
+
 ## Credit
 This code was written by the [Control of Networked System (CNS)](https://www.aau.at/en/smart-systems-technologies/control-of-networked-systems/), University of Klagenfurt, Klagenfurt, Austria.
 
@@ -51,4 +53,5 @@ $ source devel/setup.bash
 $ roslaunch nodelet_rosbag nodelet_rosbag.launch rosbag_path:=/tmp rosbag_topics:="[/mission_cam/image_raw,/mission_cam/image_rect,/mission_cam/rgb]"
 ```
 
+[CNS Flight Stack]: https://github.com/aau-cns/flight_stack
 [academic paper]: https://ieeexplore.ieee.org/document/9849131
