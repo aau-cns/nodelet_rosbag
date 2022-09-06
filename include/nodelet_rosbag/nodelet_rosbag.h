@@ -1,20 +1,23 @@
 #ifndef NODELET_ROSBAG_H
 #define NODELET_ROSBAG_H
 
-#include <boost/thread/mutex.hpp>
-#include <boost/utility/in_place_factory.hpp>
 #include <nodelet/nodelet.h>
 #include <nodelet_rosbag/SubscribeAction.h>
 #include <rosbag/bag.h>
-#include <topic_tools/shape_shifter.h>
 #include <time.h>
+#include <topic_tools/shape_shifter.h>
 
-namespace nodelet_rosbag {
+#include <boost/thread/mutex.hpp>
+#include <boost/utility/in_place_factory.hpp>
 
-class NodeRosbagImpl {
+namespace nodelet_rosbag
+{
+class NodeRosbagImpl
+{
 public:
-  NodeRosbagImpl(ros::NodeHandle *nh, ros::NodeHandle *private_nh)
-      : nh_(*nh), private_nh_(*private_nh) {}
+  NodeRosbagImpl(ros::NodeHandle* nh, ros::NodeHandle* private_nh) : nh_(*nh), private_nh_(*private_nh)
+  {
+  }
 
   void init()
   {
@@ -28,39 +31,41 @@ public:
 
     time_t rawtime;
     char timebuffer[100];
-    struct tm *buf;
+    struct tm* buf;
 
     // Get current time
     time(&rawtime);
     buf = localtime(&rawtime);
 
     // Set rosbag name
-    if (std::strftime(timebuffer, sizeof(timebuffer), "%F-%H-%M-%S", buf)) {
+    if (std::strftime(timebuffer, sizeof(timebuffer), "%F-%H-%M-%S", buf))
+    {
       rosbag_path_ = rosbag_path_ + "_" + std::string(timebuffer) + ".bag";
-    } else {
+    }
+    else
+    {
       std::cout << "Error on setting the date on rosbag name, setting name without date" << std::endl;
       rosbag_path_ = rosbag_path_ + ".bag";
     }
 
     // Display info
-    std::cout << "NodeRosbagImpl::init(): recording topics in: " +  rosbag_path_ << std::endl;
-    for (size_t i = 0; i < rosbag_record_topics_.size(); ++i) {
-      std::cout << "\t * " <<  rosbag_record_topics_[i] << std::endl;
+    std::cout << "NodeRosbagImpl::init(): recording topics in: " + rosbag_path_ << std::endl;
+    for (size_t i = 0; i < rosbag_record_topics_.size(); ++i)
+    {
+      std::cout << "\t * " << rosbag_record_topics_[i] << std::endl;
     }
   }
-
 
   void set_param();
   void close_bag();
   void open_bag();
 
 private:
-  ros::NodeHandle &nh_;
-  ros::NodeHandle &private_nh_;
+  ros::NodeHandle& nh_;
+  ros::NodeHandle& private_nh_;
 
   // Write messages coming to this callback to a Bag file
-  void record_callback(
-      const ros::MessageEvent<topic_tools::ShapeShifter const> &event);
+  void record_callback(const ros::MessageEvent<topic_tools::ShapeShifter const>& event);
 
   std::vector<ros::Subscriber> record_subscribers_;
   rosbag::Bag bag_;
@@ -70,9 +75,11 @@ private:
   boost::mutex rosbag_bag_mtx_;
 };
 
-class NodeletRosbag : public nodelet::Nodelet {
+class NodeletRosbag : public nodelet::Nodelet
+{
 public:
-  virtual void onInit() {
+  virtual void onInit()
+  {
     NODELET_INFO("Initializing nodelet...");
     node_impl_ = boost::in_place(&getNodeHandle(), &getPrivateNodeHandle());
 
@@ -82,13 +89,16 @@ public:
     std::cout << "NodeletRosbag.onInit(): DONE" << std::endl;
   }
 
-  ~NodeletRosbag() { node_impl_->close_bag(); }
+  ~NodeletRosbag()
+  {
+    node_impl_->close_bag();
+  }
 
 private:
   boost::optional<NodeRosbagImpl> node_impl_;
 };
-}
+}  // namespace nodelet_rosbag
 
 PLUGINLIB_EXPORT_CLASS(nodelet_rosbag::NodeletRosbag, nodelet::Nodelet);
 
-#endif // NODELET_ROSBAG_H
+#endif  // NODELET_ROSBAG_H

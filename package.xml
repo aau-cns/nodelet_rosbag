@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>nodelet_rosbag</name>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <description>The nodelet_rosbag package</description>
 
   <maintainer email="esteve@osrfoundation.org">Esteve Fernandez</maintainer>
