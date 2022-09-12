@@ -1,10 +1,14 @@
+// clang-format off
+#include <boost/foreach.hpp>
+#include <pluginlib/class_list_macros.h>
+// clang-format on
+
 #include <nodelet_rosbag/SubscribeAction.h>
 #include <nodelet_rosbag/nodelet_rosbag.h>
-#include <pluginlib/class_list_macros.h>
+
 #include <ros/ros.h>
 #include <rosbag/view.h>
 
-#include <boost/foreach.hpp>
 #include <iostream>
 
 namespace nodelet_rosbag
