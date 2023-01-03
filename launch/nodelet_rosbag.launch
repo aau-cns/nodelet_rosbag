@@ -14,7 +14,7 @@
 <launch>
 
   <!-- Recording Options -->
-  <arg name="rosbag_path"         default="/home/core/rec_media" />
+  <arg name="rosbag_path"         default="$(env HOME)/recordings" />
   <arg name="rosbag_prefix"       default="cam" />
   <arg name="rosbag_topics"       default="[/mission_cam/image_raw]" />
 

@@ -1,6 +1,6 @@
 # CNS Flight Stack: Nodelet Rosbag ROS1 Package (nodelet_rosbag)
 
-[![License](https://img.shields.io/badge/License-APACHE--2.0-green.svg)](./LICENSE)
+[![License](https://img.shields.io/badge/License-APACHE--2.0-green.svg)](./LICENSE) [![Paper](https://img.shields.io/badge/IEEEXplore-10.1109/LRA.2022.3196117-00629B.svg?logo=ieee)](https://doi.org/10.1109/LRA.2022.3196117) [![Release](https://img.shields.io/github/v/release/aau-cns/nodelet_rosbag?include_prereleases&logo=github)](https://github.com/aau-cns/nodelet_rosbag/releases)
 
 Maintainer: [Martin Scheiber](mailto:martin.scheiber@aau.at)
 
@@ -30,28 +30,61 @@ corresponding [academic paper] and consult the `LICENSE` file for a detailed exp
 }
 ```
 
+## Building the package
+```bash
+catkin build nodelet_rosbag
+```
+
 ## Run the nodelet_rosbag
 
+### Using the launch file
+
+```bash
+roslaunch nodelet_rosbag nodelet_rosbag.launch start_manager:=True # if you want to start the manager
+roslaunch nodelet_rosbag nodelet_rosbag.launch nodelet_manager_name:=<manager_name> # if another manager already exists
+```
+
+#### Default Launchfile Parameters
+
+The default parameters are setup for camera recordings, as nodelets have the most performance impact on images.
+
+| ROS parameter | description | default value |
+|:-------------:|:-----------:|:-------------:|
+| `rosbag_path` | path to record the bagfile(s) to | `${HOME}/recordings` |
+| `rosbag_prefix` | prefix of the recorded file | `cam` |
+| `rosbag_topics` | array of topics to record | `[/mission_cam/image_raw]` |
+| `start_manager` | starts the nodelet manager | `false` |
+| `nodelet_manager_name` | name of the ROS nodelet manager | `nodelet_manager` |
+| `respawn` | autorespawn the manager and nodelet if they die or are killed | `false` |
+
+
+### Using individual commands
 Read the [official document on running a nodelet](http://wiki.ros.org/nodelet/Tutorials/Running%20a%20nodelet).
 
-### TAB1:
-```
-$ roscore
-```
-
-### TAB2:
-```
-$ source devel/setup.bash
-$ rosrun nodelet nodelet manager __name:=nodelet_manager
+#### TAB1:
+```bash
+roscore
 ```
 
-### TAB3:
+#### TAB2:
+```bash
+source devel/setup.bash
+rosrun nodelet nodelet manager __name:=nodelet_manager
+```
+
+#### TAB3:
 
 Start the `nodelet_rosbag` by specifying the `rosbag_path` and a list of topics to record `rosbag_topics`.
+
+```bash
+source devel/setup.bash
+roslaunch nodelet_rosbag nodelet_rosbag.launch rosbag_path:=/tmp rosbag_topics:="[/mission_cam/image_raw,/mission_cam/image_rect,/mission_cam/rgb]"
 ```
-$ source devel/setup.bash
-$ roslaunch nodelet_rosbag nodelet_rosbag.launch rosbag_path:=/tmp rosbag_topics:="[/mission_cam/image_raw,/mission_cam/image_rect,/mission_cam/rgb]"
-```
+
+---
+
+Copyright (C) on changes 2021-2023 Christian Brommer, Roland Jung, Alessandro Fornasier, and Martin Scheiber, Control of Networked Systems, University of Klagenfurt, Austria.
+You can contact the authors at [christian.brommer@aau.at](mailto:christian.brommer@aau.at?subject=[CNS%20Flight%20Stack]%20nodelet_rosbag%20package), [roland.jung@aau.at](mailto:roland.jung@aau.at?subject=[CNS%20Flight%20Stack]%20nodelet_rosbag%20package), [alessandro.fornasier@aau.at](mailto:alessandro.fornasier@aau.at?subject=[CNS%20Flight%20Stack]%20nodelet_rosbag%20package), [martin.scheiber@aau.at](mailto:martin.scheiber@aau.at?subject=[CNS%20Flight%20Stack]%20nodelet_rosbag%20package).
 
 [CNS Flight Stack]: https://github.com/aau-cns/flight_stack
 [academic paper]: https://ieeexplore.ieee.org/document/9849131
